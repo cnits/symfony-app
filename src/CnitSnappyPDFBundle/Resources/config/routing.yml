@@ -1,0 +1,3 @@
+cnit_snappy_pdf_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: CnitSnappyPDFBundle:Default:index }

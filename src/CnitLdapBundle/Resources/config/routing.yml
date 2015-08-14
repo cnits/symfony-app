@@ -1,0 +1,3 @@
+cnit_ldap_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: CnitLdapBundle:Default:index }

@@ -1,0 +1,4 @@
+services:
+#    cnit_crm.example:
+#        class: CnitCrmBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

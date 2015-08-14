@@ -1,0 +1,23 @@
+cnit_mongo_db:
+    resource: "@CnitMongoDBBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cnit_ldap:
+    resource: "@CnitLdapBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cnit_crm:
+    resource: "@CnitCrmBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cnit_snappy_pdf:
+    resource: "@CnitSnappyPDFBundle/Resources/config/routing.yml"
+    prefix:   /
+
+c_logger:
+    resource: "@CnitLoggerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

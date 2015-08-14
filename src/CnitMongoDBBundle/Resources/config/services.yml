@@ -1,0 +1,4 @@
+services:
+#    cnit_mongo_db.example:
+#        class: CnitMongoDBBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

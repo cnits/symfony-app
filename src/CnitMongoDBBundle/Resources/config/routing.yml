@@ -1,0 +1,3 @@
+cnit_mongo_db_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: CnitMongoDBBundle:Default:index }
