@@ -14,7 +14,7 @@ cnit_snappy_pdf:
     resource: "@CnitSnappyPDFBundle/Resources/config/routing.yml"
     prefix:   /
 
-c_logger:
+cnit_logger:
     resource: "@CnitLoggerBundle/Resources/config/routing.yml"
     prefix:   /
 

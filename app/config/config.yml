@@ -72,7 +72,7 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-#Snappy Pdf Configuration
+# Snappy Pdf Configuration
 cnit_snappy_pdf:
     pdf:
         enabled: true
@@ -85,3 +85,9 @@ cnit_snappy_pdf:
          binary: "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe\"" # For Windows
          options: []
     temporary_folder: %kernel.cache_dir%/cnit-snappy
+
+# Logger Configuration
+cnit_logger:
+    gl:
+      host: 127.0.0.1
+      port: 12021
