@@ -17,6 +17,14 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
+        $fixOptionKeys = function ($options) {
+            $fixedOptions = array();
+            foreach ($options as $key => $value) {
+                $fixedOptions[str_replace('_', '-', $key)] = $value;
+            }
+            return $fixedOptions;
+        };
+
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('cnit_snappy_pdf');
 
@@ -24,6 +32,45 @@ class Configuration implements ConfigurationInterface
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
 
+        $rootNode -> children()
+            -> scalarNode("temporary_folder") -> end() -> end();
+        $rootNode -> children()
+            -> arrayNode("pdf")
+                -> addDefaultsIfNotSet()
+                -> children()
+                    -> booleanNode("enable") -> end()
+                    -> scalarNode("binary") -> defaultValue("wkhtmltopdf") -> end()
+                    ->arrayNode('options')
+                        ->performNoDeepMerging()
+                        ->useAttributeAsKey('name')
+                        ->beforeNormalization()
+                            ->always($fixOptionKeys) -> end()
+                        ->prototype('scalar') -> end()
+                    -> end()
+                    -> arrayNode('env')
+                        -> prototype('scalar') -> end()
+                    -> end()
+                -> end()
+            -> end()
+            -> arrayNode('image')
+                -> addDefaultsIfNotSet()
+                -> children()
+                    -> booleanNode('enabled') -> defaultTrue() -> end()
+                    -> scalarNode('binary') -> defaultValue('wkhtmltoimage') -> end()
+                    -> arrayNode('options')
+                        -> performNoDeepMerging()
+                        -> useAttributeAsKey('name')
+                        -> beforeNormalization()
+                            -> always($fixOptionKeys)
+                        -> end()
+                        -> prototype('scalar') -> end()
+                    -> end()
+                    -> arrayNode('env')
+                        -> prototype('scalar')->end()
+                    -> end()
+                ->end()
+            ->end()
+        ->end();
         return $treeBuilder;
     }
 }

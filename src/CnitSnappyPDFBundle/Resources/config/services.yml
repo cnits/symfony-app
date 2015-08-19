@@ -2,3 +2,10 @@ services:
 #    cnit_snappy_pdf.example:
 #        class: CnitSnappyPDFBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+  cnit_snappy_pdf.pdf:
+    class: Knp\Snappy\Pdf
+    arguments: [%cnit.pdf.binary%, %cnit.pdf.options%, %cnit.pdf.env%]
+
+  cnit_snappy_pdf.image:
+      class: Knp\Snappy\Image
+      arguments: [%cnit.image.binary%, %cnit.image.options%, %cnit.image.env%]
