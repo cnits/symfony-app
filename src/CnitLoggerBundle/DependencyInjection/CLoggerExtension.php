@@ -24,5 +24,7 @@ class CLoggerExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        $container -> setParameter("cnit.gl.host", $config["gl"]["host"]);
+        $container -> setParameter("cnit.gl.port", $config["gl"]["port"]);
     }
 }

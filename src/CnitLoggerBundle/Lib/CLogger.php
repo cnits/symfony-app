@@ -92,8 +92,8 @@ class CLogger extends Logger{
     /**
      * @param $facility: string
      */
-    public function __constructor($facility){
-        $transport = new UdpTransport("172.16.4.36");
+    public function __constructor($facility, $host = "127.0.0.1", $port = 12021){
+        $transport = new UdpTransport($host, $port);
         $publisher = new Publisher($transport);
         parent::__construct($publisher, $facility);
     }

@@ -1,4 +1,7 @@
 services:
-#    c_logger.example:
+#    cnit_logger.example:
 #        class: CnitLoggerBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+  cnit_logger.gl:
+    class: CnitLoggerBundle\Lib\CLogger
+    arguments: ["Cnit Logger", %cnit.gl.host%, %cnit.gl.port%]
