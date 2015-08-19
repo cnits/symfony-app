@@ -71,3 +71,17 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+#Snappy Pdf Configuration
+cnit_snappy_pdf:
+    pdf:
+        enabled: true
+        #binary: /usr/local/bin/wkhtmltopdf # For Linux
+        binary: "\"C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe\"" #For Windows
+        options: []
+    image:
+         enabled: true
+         #binary: /usr/local/bin/wkhtmltoimage # For Linux
+         binary: "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe\"" # For Windows
+         options: []
+    temporary_folder: %kernel.cache_dir%/cnit-snappy
