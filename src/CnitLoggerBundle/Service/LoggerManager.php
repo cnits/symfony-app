@@ -12,11 +12,10 @@ class LoggerManager {
         try{
             $container = CUtility::getContainer();
             if(!is_null($container)){
-                var_dump($container -> get("cnit_logger.gl"));
                 if(!empty($facility)){
                     $container -> get("cnit_logger.gl") -> setFacility($facility);
                 }
-                $container -> get("cnit_logger.gl") -> sendMessage($message, $level, $context);var_dump(111111111111);
+                $container -> get("cnit_logger.gl") -> sendMessage($message, $level, $context);
             }else{
                 throw new \Exception("Container is null. System raises critical error!");
             }

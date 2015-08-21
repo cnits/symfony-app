@@ -37,14 +37,14 @@ class GrayLogService {
         return $this->host;
     }
 
-    protected $ports;
+    protected $port;
 
     /**
      * @return mixed
      */
-    public function getPorts()
+    public function getPort()
     {
-        return $this->ports;
+        return $this->port;
     }
 
     private $gLogger;
@@ -55,17 +55,17 @@ class GrayLogService {
             $this -> host = $container -> getParameter("cnit.gl.host");
         }
         if($container -> hasParameter("cnit.gl.port")){
-            $this -> ports = $container -> getParameter("cnit.gl.port");
+            $this -> port = $container -> getParameter("cnit.gl.port");
         }
         $this -> setFacility($facility);
 
-        $this -> gLogger = new GrayLogger($facility, $this -> getHost(), $this -> getPorts());
+        $this -> gLogger = new GrayLogger($facility, $this -> getHost(), $this -> getPort());
     }
 
     public function sendMessage($message, $level, $context = array()){
         try {
             $this -> gLogger -> setFacility($this -> getFacility());
-            $this -> gLogger -> log($level, $message, $context);var_dump(123);
+            $this -> gLogger -> log($level, $message, $context);
         } catch (\Exception $ex){
             throw new \Exception($ex -> getMessage(), $ex -> getCode());
         }
