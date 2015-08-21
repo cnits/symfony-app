@@ -90,4 +90,4 @@ cnit_snappy_pdf:
 cnit_logger:
     gl:
       host: 127.0.0.1
-      port: 12021
+      port: 12201
