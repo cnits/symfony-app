@@ -68,7 +68,7 @@ class Configuration implements ConfigurationInterface
                     -> end()
                 ->end()
             ->end()
-            -> scalarNode("temporary_folder") -> end() -> end()
+            -> scalarNode("temporary_folder") -> end()
         ->end();
         return $treeBuilder;
     }

@@ -12,9 +12,9 @@
     <services>
 
         <service id="cnit_snappy_pdf.image.internal_generator" class="%cnit_snappy_pdf.image.internal_generator.class%" public="false">
-            <argument>%cnit_snappy_pdf.image.binary%</argument>
-            <argument>%cnit_snappy_pdf.image.options%</argument>
-            <argument>%cnit_snappy_pdf.image.env%</argument>
+            <argument>%cnit.image.binary%</argument>
+            <argument>%cnit.image.options%</argument>
+            <argument>%cnit.image.env%</argument>
         </service>
 
         <service id="cnit_snappy_pdf.image" class="%cnit_snappy_pdf.image.class%">

@@ -41,7 +41,7 @@ class CnitSnappyPDFExtension extends Extension
             $container->setParameter('cnit.image.options', $config['image']['options']);
             $container->setParameter('cnit.image.env', $config['image']['env']);
             if (!empty($config['temporary_folder'])) {
-                $container->findDefinition('knp_snappy.image.internal_generator')
+                $container->findDefinition('cnit.image.internal_generator')
                     ->addMethodCall('setTemporaryFolder', array($config['temporary_folder']));
             }
         }
