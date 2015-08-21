@@ -1,6 +1,6 @@
 <?php
 /*
- * Code Owner: Saba*
+ * Code Owner: Cnit
  * Modified Date: 6/25/2015
  * Modified By: Phong Lam
  */
@@ -11,7 +11,7 @@ use Gelf\Logger;
 use Gelf\Publisher;
 use Gelf\Transport\UdpTransport;
 
-class CLogger extends Logger{
+class GrayLogger extends Logger{
     /**
      * @var: string
      */
@@ -92,7 +92,7 @@ class CLogger extends Logger{
     /**
      * @param $facility: string
      */
-    public function __constructor($facility, $host = "127.0.0.1", $port = 12021){
+    public function __constructor($facility, $host = "127.0.0.1", $port = 12201){
         $transport = new UdpTransport($host, $port);
         $publisher = new Publisher($transport);
         parent::__construct($publisher, $facility);
