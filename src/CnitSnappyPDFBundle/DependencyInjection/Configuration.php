@@ -33,12 +33,10 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
 
         $rootNode -> children()
-            -> scalarNode("temporary_folder") -> end() -> end();
-        $rootNode -> children()
             -> arrayNode("pdf")
                 -> addDefaultsIfNotSet()
                 -> children()
-                    -> booleanNode("enable") -> end()
+                    -> booleanNode("enabled") -> end()
                     -> scalarNode("binary") -> defaultValue("wkhtmltopdf") -> end()
                     ->arrayNode('options')
                         ->performNoDeepMerging()
@@ -70,6 +68,7 @@ class Configuration implements ConfigurationInterface
                     -> end()
                 ->end()
             ->end()
+            -> scalarNode("temporary_folder") -> end() -> end()
         ->end();
         return $treeBuilder;
     }

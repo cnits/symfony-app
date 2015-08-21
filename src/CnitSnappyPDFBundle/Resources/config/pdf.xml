@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="cnit_snappy_pdf.pdf.internal_generator.class">Knp\Snappy\Pdf</parameter>
+        <parameter key="cnit_snappy_pdf.pdf.class">Knp\Snappy\Pdf</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="cnit_snappy_pdf.pdf.internal_generator" class="%cnit_snappy_pdf.pdf.internal_generator.class%" public="false">
+            <argument>%cnit_snappy_pdf.pdf.binary%</argument>
+            <argument>%cnit_snappy_pdf.pdf.options%</argument>
+            <argument>%cnit_snappy_pdf.pdf.env%</argument>
+        </service>
+
+        <service id="cnit_snappy_pdf.pdf" class="%cnit_snappy_pdf.pdf.class%">
+            <argument type="service" id="cnit_snappy_pdf.pdf.internal_generator" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="monolog.logger" channel="snappy" />
+        </service>
+
+    </services>
+
+</container>
