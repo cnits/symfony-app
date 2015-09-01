@@ -25,7 +25,7 @@ final class CUtility {
         $mLogger = new \Monolog\Logger($logType);
         $mLogger -> pushHandler(new \Monolog\Handler\StreamHandler("app/logs/".$logType.".log", \Monolog\Logger::ERROR));
         if($ex instanceof \Exception){
-            $mLogger -> addError(json_encode($ex));
+            $mLogger -> addError("Message: ". $ex -> getMessage(). " File: ". $ex -> getFile(). " Line: ". $ex -> getLine(). " Tracking: ". $ex -> getTraceAsString());
         }else{
             $mLogger -> addError($ex);
         }
