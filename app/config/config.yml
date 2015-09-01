@@ -79,11 +79,13 @@ cnit_snappy_pdf:
         #binary: /usr/local/bin/wkhtmltopdf # For Linux
         binary: "\"C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe\"" #For Windows
         options: []
+        env: []
     image:
          enabled: true
          #binary: /usr/local/bin/wkhtmltoimage # For Linux
          binary: "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe\"" # For Windows
          options: []
+         env: []
     temporary_folder: %kernel.cache_dir%/cnit-snappy
 
 # Logger Configuration
