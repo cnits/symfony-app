@@ -18,9 +18,9 @@
         </service>
 
         <service id="cnit_snappy_pdf.pdf" class="%cnit_snappy_pdf.pdf.class%">
-            <argument type="service" id="cnit_snappy_pdf.pdf.internal_generator" />
-            <argument type="service" id="logger" on-invalid="null" />
-            <tag name="monolog.logger" channel="snappy" />
+            <argument>%cnit.pdf.binary%</argument>
+            <argument>%cnit.pdf.options%</argument>
+            <argument>%cnit.pdf.env%</argument>
         </service>
 
     </services>
