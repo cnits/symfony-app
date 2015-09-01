@@ -12,7 +12,7 @@ class DefaultController extends Controller
         return $this->render('CnitSnappyPDFBundle:Default:index.html.twig', array('name' => $name));
     }
 
-    public function snappyPdf(){
+    public function snappyPdfAction(){
         $html = $this->renderView('CnitSnappyPDFBundle:Default:index.html.twig', array(
             'User'  => array(
                 "Name" => "PVLam",
@@ -31,7 +31,7 @@ class DefaultController extends Controller
         );
     }
 
-    public function snappyImage(){
+    public function snappyImageAction(){
         $html = $this->renderView('CnitSnappyPDFBundle:Default:index.html.twig', array(
             'User'  => array(
                 "Name" => "PVLam",

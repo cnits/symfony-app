@@ -3,5 +3,5 @@ cnit_snappy_pdf_homepage:
     defaults: { _controller: CnitSnappyPDFBundle:Default:index }
 
 cnit_snappy_pdf_pdf:
-    path: /cnit/snappy/pdf
+    pattern: /cnit/snappy/pdf
     defaults: { _controller: CnitSnappyPDFBundle:Default:snappyPdf }
