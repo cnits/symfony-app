@@ -13,12 +13,16 @@ class DefaultController extends Controller
     }
 
     public function snappyPdf(){
-        $html = $this->renderView('MyBundle:Foo:bar.html.twig', array(
-            'some'  => array()
+        $html = $this->renderView('CnitSnappyPDFBundle:Default:index.html.twig', array(
+            'User'  => array(
+                "Name" => "PVLam",
+                "Email" => "phonglam@ccintegration.com"
+            ),
+            "Type" => "Pdf"
         ));
 
         return new Response(
-            $this->get('knp_snappy.pdf') -> getOutputFromHtml($html),
+            $this->get('cnit_snappy_pdf.pdf') -> getOutputFromHtml($html),
             200,
             array(
                 'Content-Type'          => 'application/pdf',
@@ -28,12 +32,16 @@ class DefaultController extends Controller
     }
 
     public function snappyImage(){
-        $html = $this->renderView('MyBundle:Foo:bar.html.twig', array(
-            'some'  => array()
+        $html = $this->renderView('CnitSnappyPDFBundle:Default:index.html.twig', array(
+            'User'  => array(
+                "Name" => "PVLam",
+                "Email" => "phonglam@ccintegration.com"
+            ),
+            "Type" => "Image"
         ));
 
         return new Response(
-            $this->get('knp_snappy.image') -> getOutputFromHtml($html),
+            $this->get('cnit_snappy_pdf.image') -> getOutputFromHtml($html),
             200,
             array(
                 'Content-Type'          => 'image/jpg',

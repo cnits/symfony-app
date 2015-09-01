@@ -22,8 +22,9 @@ class CnitSnappyPDFExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        //$loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         //$loader->load('services.yml');
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         if ($config['pdf']['enabled']) {
             $loader->load('pdf.xml');
@@ -31,7 +32,7 @@ class CnitSnappyPDFExtension extends Extension
             $container->setParameter('cnit.pdf.options', $config['pdf']['options']);
             $container->setParameter('cnit.pdf.env', $config['pdf']['env']);
             if (!empty($config['temporary_folder'])) {
-                $container->findDefinition('cnit.pdf.internal_generator')
+                $container->findDefinition('cnit_snappy_pdf.pdf.internal_generator')
                     ->addMethodCall('setTemporaryFolder', array($config['temporary_folder']));
             }
         }
@@ -41,7 +42,7 @@ class CnitSnappyPDFExtension extends Extension
             $container->setParameter('cnit.image.options', $config['image']['options']);
             $container->setParameter('cnit.image.env', $config['image']['env']);
             if (!empty($config['temporary_folder'])) {
-                $container->findDefinition('cnit.image.internal_generator')
+                $container->findDefinition('cnit_snappy_pdf.image.internal_generator')
                     ->addMethodCall('setTemporaryFolder', array($config['temporary_folder']));
             }
         }
