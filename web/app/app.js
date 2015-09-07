@@ -1,9 +1,12 @@
-/**
- * Created by CCI on 5/27/2015.
+/*
+ * Code Owner:
+ * Modified Date: 05/27/2015
+ * Modified By: Phong Lam
  */
+'use strict';
 (function(){
-    var app = angular.module('app', ['ngRoute', 'firebase'])
-        .value('fbURL', 'https://cnit.firebaseio.com')
+    var app = angular.module('app', ['ngRoute', 'firebase', "app.fireBase.Ctrl"])
+        .value('fbURL', 'https://cnit.firebaseio.com/data')
         .service('fbRef', function(fbURL) {
             console.log(1);
             return new Firebase(fbURL);
@@ -58,7 +61,7 @@
             $routeProvider
                 .when('/', {
                     controller:'ProjectListController as projectList',
-                    templateUrl:'/app/components/jsproject/list.html',
+                    templateUrl:'/app/components/fireBase/views/list.html',
                     resolve: {
                         projects: function (Projects) {
                             console.log(4);
@@ -68,11 +71,11 @@
                 })
                 .when('/edit/:projectId', {
                     controller:'EditProjectController as editProject',
-                    templateUrl:'/components/jsproject/detail.html'
+                    templateUrl:'/components/fireBase/views/detail.html'
                 })
                 .when('/new', {
                     controller:'NewProjectController as editProject',
-                    templateUrl:'/components/jsproject/detail.html'
+                    templateUrl:'/components/fireBase/views/detail.html'
                 })
                 .otherwise({
                     redirectTo:'/'
