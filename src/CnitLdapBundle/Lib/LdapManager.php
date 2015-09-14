@@ -167,8 +167,9 @@
 		
 		public function find($includeDescription = false, $searchField = false, $searchFilter = false, $fields = array(),$sorted = true)
 		{
-			if (!$this->ldap->getLdapBind()){ return false; }
-          
+			if (!$this->ldap->getLdapBind()){
+				return false;
+			}
 	        // Perform the search and grab all their details
 	        $searchParams = "";
 	        if ($searchField) {
@@ -176,18 +177,20 @@
 	        }                           
 	        $filter = "(&(objectClass=user)(samaccounttype=" . \adLDAP::ADLDAP_NORMAL_ACCOUNT .")(objectCategory=person)" . $searchParams . ")";
 	        if(count($fields) <= 0){
-	        	$fields = array("samaccountname","userprincipalname","displayname",
-            				"pwdlastset","unicodepwd","givenname","sn","title","mail","memberof",
-            				"telephonenumber","mobile","ipphone","homephone",
-            				"l","postalcode","c","postofficebox","st","streetaddress",
-            				"department","company",
-            				"accountexpires","description",
-            				"homedirectory","homedrive","initials",
-            				"manager","physicaldeliveryofficename",
-            				"scriptPath","profilepath","primarygroupid","objectsid",
-            				"pager","wwwhomepage","facsimiletelephonenumber",
-            				"useraccountcontrol","dlmemsubmitperms","dlmemrejectperms", "enabled",
-							"directreports"); 
+	        	$fields = array(
+					"samaccountname","userprincipalname","displayname",
+					"pwdlastset","unicodepwd","givenname","sn","title","mail","memberof",
+					"telephonenumber","mobile","ipphone","homephone",
+					"l","postalcode","c","postofficebox","st","streetaddress",
+					"department","company",
+					"accountexpires","description",
+					"homedirectory","homedrive","initials",
+					"manager","physicaldeliveryofficename",
+					"scriptPath","profilepath","primarygroupid","objectsid",
+					"pager","wwwhomepage","facsimiletelephonenumber",
+					"useraccountcontrol","dlmemsubmitperms","dlmemrejectperms", "enabled",
+					"directreports"
+				);
 	        }
 	        $cookie = null;
 			$pageSize = 50;
