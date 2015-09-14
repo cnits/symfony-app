@@ -1,6 +1,6 @@
 <?php
  /** 										*
- * Code owner	: SABA						*
+ * Code owner	: Cnit						*
  * Modified date: 11/05/2014				*
  * Modified by	: PHONG LAM 				*
  */ 
@@ -140,40 +140,6 @@
 	        curl_setopt($cURLHandle, CURLOPT_POSTFIELDS, $content);
 			curl_setopt($cURLHandle, CURLOPT_SSLVERSION, 4);
 			$response = curl_exec($cURLHandle);
-			if($response === false){
-				throw new \Exception(curl_error($cURLHandle), 1);
-			}
-	        curl_close($cURLHandle);
-	        return $response;
-	  }
-	
-	/* 
-	 * 2015/01/16
-	 * fix for updating new ssl version
-	 * thanglam
-	 */
-	public static function GetSOAPResponse2($postUrl, $hostname, $soapUrl, $content) {
-	        // setup headers
-	        $headers = array(
-	            "POST " . $postUrl . " HTTP/1.1",
-	            "Host: " . $hostname,
-	            'Connection: Keep-Alive',
-	            "Content-type: application/soap+xml; charset=UTF-8",
-	            "Content-length: " . strlen($content),
-	        );
-			
-	        $cURLHandle = curl_init();
-	        curl_setopt($cURLHandle, CURLOPT_URL, $soapUrl);
-	        curl_setopt($cURLHandle, CURLOPT_RETURNTRANSFER, 1);
-	        curl_setopt($cURLHandle, CURLOPT_TIMEOUT, 180);
-	        curl_setopt($cURLHandle, CURLOPT_SSL_VERIFYPEER, false);
-	        curl_setopt($cURLHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-	        curl_setopt($cURLHandle, CURLOPT_HTTPHEADER, $headers);
-	        curl_setopt($cURLHandle, CURLOPT_POST, 1);
-	        curl_setopt($cURLHandle, CURLOPT_POSTFIELDS, $content);
-			curl_setopt($cURLHandle, CURLOPT_SSLVERSION, 3);
-			//curl_setopt($cURLHandle, CURLOPT_SSL_CIPHER_LIST, 'SSLv3');
-	        $response = curl_exec($cURLHandle);
 			if($response === false){
 				throw new \Exception(curl_error($cURLHandle), 1);
 			}
