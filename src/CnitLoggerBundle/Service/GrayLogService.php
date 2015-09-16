@@ -27,39 +27,12 @@ class GrayLogService {
         $this->facility = $facility;
     }
 
-    protected $host;
-
-    /**
-     * @return mixed
-     */
-    public function getHost()
-    {
-        return $this->host;
-    }
-
-    protected $port;
-
-    /**
-     * @return mixed
-     */
-    public function getPort()
-    {
-        return $this->port;
-    }
-
     private $gLogger;
 
-    function __construct($facility){
-        $container = CUtility::getContainer();
-        if($container -> hasParameter("cnit.gl.host")){
-            $this -> host = $container -> getParameter("cnit.gl.host");
-        }
-        if($container -> hasParameter("cnit.gl.port")){
-            $this -> port = $container -> getParameter("cnit.gl.port");
-        }
+    function __construct($facility, $host, $port){
         $this -> setFacility($facility);
 
-        $this -> gLogger = new GrayLogger($facility, $this -> getHost(), $this -> getPort());
+        $this -> gLogger = new GrayLogger($facility, $host, $port);
     }
 
     public function sendMessage($message, $level, $context = array()){
