@@ -7,7 +7,12 @@
     'use strict';
     var app = angular.module("app.fireBase.Ctrl", []);
 
-    app.controller("ProjectController", ['$scope', function($scope){
-        $scope.Name = "PVLam";
-    }]);
+    app.controller("ProjectController", function(){
+        /*
+        *   "$scope" issue within nested controller???
+        *   Let use the "this" keyword, instead of "$scope"
+        */
+        var self = this;
+        self.Name = "PVLam";
+    });
 }).call();
