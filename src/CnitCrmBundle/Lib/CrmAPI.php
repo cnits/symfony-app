@@ -27,7 +27,9 @@ class CrmAPI {
 	
 	public function checkLoginCRM() {
 		$OFManager = new OnlineFederationManager();
-		$securityData = $OFManager -> authenticateWithOnlineFederation(self::$organizationServiceURL, self::$OFUsername, self::$OFPassword);
+		$securityData = $OFManager -> authenticateWithOnlineFederation(
+			self::$organizationServiceURL, self::$OFUsername, self::$OFPassword
+		);
 		if ($securityData != null && !empty($securityData)) {
 			return true;
 		} else {
@@ -37,7 +39,9 @@ class CrmAPI {
 
 	private function getSecurityData() {
 		$OFManager = new OnlineFederationManager();
-		$securityData = $OFManager -> authenticateWithOnlineFederation(self::$organizationServiceURL, self::$OFUsername, self::$OFPassword);
+		$securityData = $OFManager -> authenticateWithOnlineFederation(
+			self::$organizationServiceURL, self::$OFUsername, self::$OFPassword
+		);
 		if ($securityData != null && !empty($securityData)) {
 			return $securityData;
 		} else {
@@ -45,58 +49,59 @@ class CrmAPI {
 		}
 	}
 
-	public function getRowsCount($entityName, $entityfield) {
-		$CRMURL = self::$organizationServiceURL;
+	public function getRowsCount($entityName, $field) {
+		$crmUrl = self::$organizationServiceURL;
 		$securityData = self::getSecurityData();
-		$domainname = self::getCrmDomainName($CRMURL);
-		$entityRequest = EntityUtils::getCRMSoapHeader($CRMURL, $securityData) . '
-		  	<s:Body>
-				  <Execute xmlns="http://schemas.microsoft.com/xrm/2011/Contracts/Services">
-						<request i:type="b:RetrieveMultipleRequest" xmlns:b="http://schemas.microsoft.com/xrm/2011/Contracts" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-							<b:Parameters xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.Generic">
-								<b:KeyValuePairOfstringanyType>
-									<c:key>Query</c:key>
-									<c:value i:type="b:FetchExpression">
-										<b:Query>&lt;fetch mapping="logical" aggregate="true" distinct="false" version="1.0"&gt;&#xD;
-											&lt;entity name="' . $entityName . '"&gt;&#xD;
-											&lt;attribute name="' . $entityfield . '" alias="entityRowsCount" aggregate="count" /&gt;&#xD;
-											&lt;/entity&gt;&#xD;
-											&lt;/fetch&gt;
-										</b:Query>
-									</c:value>
-								</b:KeyValuePairOfstringanyType>
-							</b:Parameters>
-							<b:RequestId i:nil="true"/><b:RequestName>RetrieveMultiple</b:RequestName>
-						</request>
-				  </Execute>
-		    </s:Body>
+		$domainName = self::getCrmDomainName($crmUrl);
+		$entityRequest = EntityUtils::getCRMSoapHeader($crmUrl, $securityData) . '
+			<s:Body>
+			  <Execute xmlns="http://schemas.microsoft.com/xrm/2011/Contracts/Services">
+				<request i:type="b:RetrieveMultipleRequest" xmlns:b="http://schemas.microsoft.com/xrm/2011/Contracts" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+					<b:Parameters xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.Generic">
+						<b:KeyValuePairOfstringanyType>
+							<c:key>Query</c:key>
+							<c:value i:type="b:FetchExpression">
+								<b:Query>&lt;fetch mapping="logical" aggregate="true" distinct="false" version="1.0"&gt;&#xD;
+									&lt;entity name="' . $entityName . '"&gt;&#xD;
+									&lt;attribute name="' . $field . '" alias="entityRowsCount" aggregate="count" /&gt;&#xD;
+									&lt;/entity&gt;&#xD;
+									&lt;/fetch&gt;
+								</b:Query>
+							</c:value>
+						</b:KeyValuePairOfstringanyType>
+					</b:Parameters>
+					<b:RequestId i:nil="true"/><b:RequestName>RetrieveMultiple</b:RequestName>
+				</request>
+			  </Execute>
+			</s:Body>
 		</s:Envelope>';
-		$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainname, $CRMURL, $entityRequest);
-		$entitysArray = array();
+		$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainName, $crmUrl, $entityRequest);
+		$results = array();
 		if ($response != null && $response != "") {
-			$responsedom = new DomDocument();
-			$responsedom -> loadXML($response);
-			$entities = $responsedom -> getElementsbyTagName("Entity");
+			$dom = new DomDocument();
+			$dom -> loadXML($response);
+			$entities = $dom -> getElementsbyTagName("Entity");
 			foreach ($entities as $entity) {
 				$item = array();
-				$kvptypes = $entity -> getElementsbyTagName("KeyValuePairOfstringanyType");
-				foreach ($kvptypes as $kvp) {
+				$kvpTypes = $entity -> getElementsbyTagName("KeyValuePairOfstringanyType");
+				foreach ($kvpTypes as $kvp) {
 					$key = $kvp -> getElementsbyTagName("key") -> item(0) -> textContent;
 					$value = $kvp -> getElementsbyTagName("Value") -> item(0) -> textContent;
-					if ($key == 'entityRowsCount') { $item['entityRowsCount'] = $value;
+					if ($key == 'entityRowsCount') {
+						$item['entityRowsCount'] = $value;
 					}
 				}
-				$entitysArray[] = $item;
+				$results[] = $item;
 			}
 		}
-		return $entitysArray;
+		return $results;
 	}
 
 	private function getCrmDomainName($url) {
-		$domainname = substr($url, 8, -1);
-		$pos = strpos($domainname, "/");
-		$domainname = substr($domainname, 0, $pos);
-		return $domainname;
+		$domainName = substr($url, 8, -1);
+		$pos = strpos($domainName, "/");
+		$domainName = substr($domainName, 0, $pos);
+		return $domainName;
 	}
 
 	private function getValueDOMNode($tagItem, $attribute = '', $filter = "Id") {
@@ -122,14 +127,14 @@ class CrmAPI {
 	}
 
 	private function getEntityCollectionFromSOAPResponse($response) {
-		$responsedom = new \DomDocument();
-		$responsedom -> loadXML($response);
-		$entities = $responsedom -> getElementsbyTagName("Entity");
+		$dom = new \DomDocument();
+		$dom -> loadXML($response);
+		$entities = $dom -> getElementsbyTagName("Entity");
 		$entityArray = array();
 		foreach ($entities as $entity) {
 			$entityObject = array();
-			$kvptypes = $entity -> getElementsbyTagName("KeyValuePairOfstringanyType");
-			foreach ($kvptypes as $kvp) {
+			$kvpTypes = $entity -> getElementsbyTagName("KeyValuePairOfstringanyType");
+			foreach ($kvpTypes as $kvp) {
 				$key = $kvp -> getElementsbyTagName("key") -> item(0) -> textContent;
 				$valueTagItem = $kvp -> getElementsbyTagName("value") -> item(0);
 				$entityObject[$key] = self::getValueDOMNode($valueTagItem, 'type', 'Name');
@@ -148,15 +153,15 @@ class CrmAPI {
 	}
 	private function getErrorMessageFromSOAPResponse($response) {
 		$msgText = '';
-		$responsedom = new \DomDocument();
-		$responsedom -> loadXML($response);
-		$faults = $responsedom -> getElementsbyTagName("OrganizationServiceFault");
+		$dom = new \DomDocument();
+		$dom -> loadXML($response);
+		$faults = $dom -> getElementsbyTagName("OrganizationServiceFault");
 		if($faults -> length > 0){
 			foreach ($faults as $fault) {
 				$msgText = $msgText . ' - ' . $fault -> getElementsbyTagName("Message") -> item(0) -> textContent;
 			}
 		}else{
-			$faults = $responsedom -> getElementsbyTagName("Reason");
+			$faults = $dom -> getElementsbyTagName("Reason");
 			if($faults -> length > 0){
 				foreach ($faults as $fault) {
 					$msgText = $msgText . ' - ' . $fault -> getElementsbyTagName("Text") -> item(0) -> nodeValue;
@@ -287,7 +292,7 @@ class CrmAPI {
 			} else {
 				$securityData = $this -> getSecurityData();
 				if ($securityData != null && isset($securityData)) {
-					$domainname = $this -> getCrmDomainName(self::$organizationServiceURL);
+					$domainName = $this -> getCrmDomainName(self::$organizationServiceURL);
 					$strRequest = '';
 					$soapHeader = EntityUtils::getCRMSoapHeader(self::$organizationServiceURL, $securityData) . '<s:Body>
 					            <Execute xmlns="http://schemas.microsoft.com/xrm/2011/Contracts/Services">
@@ -375,7 +380,7 @@ class CrmAPI {
 			            </s:Body>
 			        </s:Envelope>';
 					$strRequest = $soapHeader . $btFetchQuery . $btEntity . $selectedAttributes . $strSorting . $strFilter . $strLinkEntity . $etEntity . $etFetchQuery . $soapFooter;
-					$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainname, self::$organizationServiceURL, $strRequest);
+					$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainName, self::$organizationServiceURL, $strRequest);
 					$msgText = $this -> getErrorMessageFromSOAPResponse($response);
 					if($msgText != "") {
 						throw new \Exception($msgText, 1);
@@ -398,7 +403,7 @@ class CrmAPI {
 			}else{
 				$securityData = $this -> getSecurityData();
 				if ($securityData != null) {
-					$domainname = $this -> getCrmDomainName(self::$organizationServiceURL);
+					$domainName = $this -> getCrmDomainName(self::$organizationServiceURL);
 					$dataString = $this -> setupDataStructureForSubmit($data);
 					if(empty($dataString)){
 						throw new \Exception("Data is empty", 1);
@@ -420,7 +425,7 @@ class CrmAPI {
 		                </s:Body>
 		            </s:Envelope>
 					';
-					$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainname, self::$organizationServiceURL, $entityRequest);
+					$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainName, self::$organizationServiceURL, $entityRequest);
 					$msgText = $this -> getErrorMessageFromSOAPResponse($response);
 					if($msgText != "") {
 						throw new \Exception($msgText, 1);
@@ -445,7 +450,7 @@ class CrmAPI {
 			} else {
 				$securityData = $this -> getSecurityData();
 				if($securityData != null){
-					$domainname = $this -> getCrmDomainName(self::$organizationServiceURL);
+					$domainName = $this -> getCrmDomainName(self::$organizationServiceURL);
 					$dataString = $this -> setupDataStructureForSubmit($data);
 					if(empty($dataString)){
 						throw new \Exception("Data is empty", 1);
@@ -464,7 +469,7 @@ class CrmAPI {
 			                </entity></Update>
 			            </s:Body>
 			        </s:Envelope>';
-					$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainname, self::$organizationServiceURL, $entityRequest);
+					$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainName, self::$organizationServiceURL, $entityRequest);
 					$msgText = $this -> getErrorMessageFromSOAPResponse($response);
 					if($msgText != "") {
 						throw new \Exception($msgText, 1);
@@ -490,7 +495,7 @@ class CrmAPI {
 			} else {
 				$securityData = $this -> getSecurityData();
 				if($securityData != null){
-					$domainname = $this -> getCrmDomainName(self::$organizationServiceURL);
+					$domainName = $this -> getCrmDomainName(self::$organizationServiceURL);
 					$entityRequest = EntityUtils::getDeleteCRMSoapHeader(self::$organizationServiceURL, $securityData).
 					'<s:Body>
 			                <Delete xmlns="http://schemas.microsoft.com/xrm/2011/Contracts/Services">
@@ -499,7 +504,7 @@ class CrmAPI {
 			                </Delete>
 			            </s:Body>
 			        </s:Envelope>';
-					$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainname, self::$organizationServiceURL, $entityRequest);
+					$response = OnlineFederationManager::GetSOAPResponse("/Organization.svc", $domainName, self::$organizationServiceURL, $entityRequest);
 					$msgText = $this -> getErrorMessageFromSOAPResponse($response);
 					if($msgText != "") {
 						throw new \Exception($msgText, 1);
