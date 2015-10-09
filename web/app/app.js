@@ -5,7 +5,7 @@
  */
 'use strict';
 (function(){
-    var app = angular.module('app', ['ngRoute', "app.fireBase.Ctrl"])
+    var app = angular.module('app', ['ngRoute', "app.fireBase"])
     .config(function($routeProvider) {
         $routeProvider
             .when('/', {
