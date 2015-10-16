@@ -13,16 +13,17 @@
 
         <script src="app/app.js" type="text/javascript"></script>
         <script src="app/components/fireBase/controllers/projectController.js" type="text/javascript"></script>
+        <script src="app/components/fireBase/directives/projectDirective.js" type="text/javascript"></script>
+        <script src="app/components/fireBase/services/projectService.js" type="text/javascript"></script>
 
-        <title>Cnit</title>
+        <title>Cnit Portal</title>
     </head>
     <body>
-        HTML Template!
-        <div ng-view></div>
-        <div ng-controller="ProjectController as self">
+        <project-list-layout></project-list-layout>
+        <!--<div ng-controller="ProjectController as self">
             <label>Input</label>
             <input type="text" ng-model="self.Name" />
             <h1>{{ self.Name }}</h1>
-        </div>
+        </div>-->
     </body>
 </html>

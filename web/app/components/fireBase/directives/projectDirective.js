@@ -12,11 +12,18 @@
         app = angular.module("app.fireBase", ["firebase"]);
     }
 
-    app.directive("directiveName", function(){
+    app.directive("projectListLayout", function(){
         return {
-            restrict: 'A',
-            link: function($element, $attr){
-
+            restrict: 'E',
+            replace: true,
+            templateUrl: './app/components/fireBase/views/list.html',
+            link: function(element, attr){
+                element.bind('click', function(){
+                    element.css('background-color', 'purple');
+                });
+                element.bind('mouseover', function(){
+                    element.css('cursor', 'pointer');
+                });
             }
         };
     });

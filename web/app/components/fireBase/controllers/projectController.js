@@ -16,6 +16,7 @@
         *   "$scope" issue within nested controller???
         *   Let use the "this" keyword, instead of "$scope"
         */
+        var obj = fbProject.fetch();
         angular.extend(this, {
             Name: "PVLam",
             MyFunc: function myFunc(name){

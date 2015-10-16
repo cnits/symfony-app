@@ -5,6 +5,7 @@
  */
 'use strict';
 (function(){
+    angular.module("app.fireBase", ["firebase"]);
     var app = angular.module('app', ['ngRoute', "app.fireBase"])
     .config(function($routeProvider) {
         $routeProvider
