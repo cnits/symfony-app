@@ -1,0 +1,362 @@
+Binding Between Isolated and Parent Scope Properties
+Often, it’s convenient to isolate a directive’s scope, especially if you are manipulating many scope models.
+But, you may also need to access some parent scope properties inside the directive in order for the code to
+work. The good news is that Angular gives you enough flexibility to selectively pass parent scope properties
+to the directive through bindings. Let’s revisit our hello world directive, which changes its background color
+automatically when somebody types a color name into the text field. Recall that we isolated the scope of the
+directive and the code stopped working? Well, let’s make it work now!
+
+Assume that the variable app is initialized and refers to the Angular module. The directive is shown below.
+
+app.directive('helloWorld', function() {
+  return {
+    scope: {},
+    restrict: 'AE',
+    replace: true,
+    template: '<p style="background-color:{{color}}">Hello World</p>',
+    link: function(scope, elem, attrs) {
+      elem.bind('click', function() {
+        elem.css('background-color','white');
+        scope.$apply(function() {
+          scope.color = "white";
+        });
+      });
+      elem.bind('mouseover', function() {
+        elem.css('cursor', 'pointer');
+      });
+    }
+  };
+});
+The markup, with utilizes the directive is shown in the following code sample.
+
+<body ng-controller="MainCtrl">
+  <input type="text" ng-model="color" placeholder="Enter a color"/>
+  <hello-world/>
+</body>
+This code is not currently functional. Since we have an isolated scope, the expression {{color}} inside the
+directive template evaluates against this scope (not parent’s). But the ng-model directive on the input element
+refers to the parent scope property color. So, we need a way to bind these two isolated and parent scope
+properties. In Angular, this binding can be achieved by setting attributes on the directive element in HTML
+and configuring the scope property in the directive definition object. Let’s explore a few ways of setting
+up the binding.
+
+Option 1: Use @ for One Way Text Binding
+In the directive definition, shown below, we have specified that the isolated scope property color should be
+bound to the attribute colorAttr, which is applied to the directive in the HTML. If you look at the markup,
+you can see the expression {{color}} is assigned to color-attr. When the value of the expression changes,
+the attribute color-attr also changes. This in turn changes the isolated scope property, color.
+
+app.directive('helloWorld', function() {
+  return {
+    scope: {
+      color: '@colorAttr'
+    },
+    ....
+    // the rest of the configurations
+  };
+});
+The updated markup is shown below.
+
+<body ng-controller="MainCtrl">
+  <input type="text" ng-model="color" placeholder="Enter a color"/>
+  <hello-world color-attr="{{color}}"/>
+</body>
+We call this one way binding because with this technique you can only pass strings to the attribute (using
+expressions, {{}}). When the parent scope property changes, your isolated scope model also changes. You can
+even watch this scope property inside the directive and trigger tasks when a change occurs. However, the reverse
+ is not true! You can’t change the parent scope model by manipulating the isolated scope.
+
+Note:
+If the isolated scope property and the attribute name is same you can write the directive definition like this:
+
+app.directive('helloWorld', function() {
+  return {
+    scope: {
+      color: '@'
+    },
+    ....
+    // the rest of the configurations
+  };
+});
+The directive is invoked in HTML like this:
+
+<hello-world color="{{color}}"/>
+Option 2: Use = for Two Way Binding
+Let’s change the directive definition as shown below.
+
+app.directive('helloWorld', function() {
+  return {
+    scope: {
+      color: '='
+    },
+    ....
+    // the rest of the configurations
+  };
+});
+And change the HTML like this:
+
+<body ng-controller="MainCtrl">
+  <input type="text" ng-model="color" placeholder="Enter a color"/>
+  <hello-world color="color"/>
+</body>
+Unlike @, this technique lets you assign an actual scope model to the attribute rather than just plain strings.
+ As a result you can pass values ranging from simple strings and arrays to complex objects to the isolated scope.
+  Also, a two way binding exists. Whenever the parent scope property changes, the corresponding isolated scope
+  property also changes, and vice versa. As usual, you can watch this scope property for changes.
+
+Option 3: Use & to Execute Functions in the Parent Scope
+It’s sometimes necessary to call functions defined in the parent scope from a directive with isolated scope.
+To refer to functions defined in outer scope we use &. Let’s say we want to call a function sayHello() from the
+directive. The following code explains how it is achieved.
+
+app.directive('sayHello', function() {
+  return {
+    scope: {
+      sayHelloIsolated: '&amp;'
+    },
+    ....
+    // the rest of the configurations
+  };
+});
+The directive is used in HTML like this:
+
+<body ng-controller="MainCtrl">
+  <input type="text" ng-model="color" placeholder="Enter a color"/>
+  <say-hello sayHelloIsolated="sayHello()"/>
+</body>
+This Plunker example demonstrates this concepts.
+
+Parent Scope vs. Child Scope vs. Isolated Scope
+As an Angular beginner one might get confused while choosing the right scope for a directive. By default a
+directive does not create a new scope and uses the parent’s scope. But in many cases this is not what we want.
+If your directive manipulates the parent scope properties heavily and creates new ones, it might pollute the
+scope. Letting all the directives use the same parent scope is not a good idea because anybody can modify our
+scope properties. So, the following guidelines may help you choose the right scope for your directive.
+
+Parent Scope (scope: false) – This is the default case. If your directive does not manipulate the parent scope
+properties you might not need a new scope. In this case, using the parent scope is okay.
+Child Scope (scope:true) – This creates a new child scope for a directive which prototypically inherits from the
+parent scope. If the properties and functions you set on the scope are not relevant to other directives and the
+parent, you should probably create a new child scope. With this you also have all the scope properties and
+functions defined by the parent.
+Isolated Scope (scope:{}) – This is like a sandbox! You need this if the directive you are going to build is
+self contained and reusable. Your directive might be creating many scope properties and functions which are
+meant for internal use, and should never be seen by the outside world. If this is the case, it’s better to have
+an isolated scope. The isolated scope, as expected, does not inherit the parent scope.
+
+Transclusion
+
+Transclusion is a feature which lets us wrap a directive around arbitrary content.
+We can later extract and compile it against the correct scope, and finally place it at the specified position
+in the directive template. If you set transclude:true in the directive definition, a new transcluded scope will
+be created which prototypically inherits from the parent scope. If you want your directive with isolated scope
+to contain an arbitrary piece of content and execute it against the parent scope, transclusion can be used.
+
+Let’s say we have a directive registered like this:
+
+app.directive('outputText', function() {
+  return {
+    transclude: true,
+    scope: {},
+    template: '<div ng-transclude></div>'
+  };
+});
+And it is used like this:
+
+<div output-text>
+  <p>Hello {{name}}</p>
+</div>
+ng-transclude says where to put the transcluded content. In this case the DOM content <p>Hello {{name}}</p>
+is extracted and put inside <div ng-transclude></div>. The important point to remember is that the expression
+{{name}} interpolates against the property defined in the parent scope rather than the isolated scope.
+A Plunker to experiment with is located here. If you want to learn more about scopes go though this document.
+
+Differences Between transclude:'element' and transclude:true
+Sometimes we need to transclude the element on which the directive is applied rather than just the contents.
+In those cases transclude:'element' is used. This, unlike transclude:true, includes the element itself in the
+directive template marked with ng-transclude. As a result of transclusion your link function gets a transclude
+linking function prebound to the correct directive scope. This linking function is also passed another function
+with a clone of the DOM element which is to be transcluded. You can perform tasks like modifying the clone and
+adding it to the DOM. Directives like ng-repeat use this technique to repeat the DOM elements. Have a look at
+the following Plunker which repeats a DOM element using this technique and changes the background color of the
+second instance.
+
+Also note that by using transclude:'element', the element on which the directive is applied is converted into
+an HTML comment. So, if you combine transclude:'element' with replace:false, the directive template essentially
+gets innerHTMLed to the comment – which means nothing really happens! Instead, if you choose replace:true the
+directive template will replace the HTML comment and things will work as expected. Using replace:false with
+transclude:'element' is good for cases where you want to repeat the DOM element and don’t want to keep the first
+instance of the element (which is converted to a comment).
+
+
+The controller Function and require
+The controller function of a directive is used if you want to allow other directives to communicate with yours.
+In some cases you may need to create a particular UI component by combining two directives. For example you can
+attach a controller function to a directive as shown below.
+
+app.directive('outerDirective', function() {
+  return {
+    scope: {},
+    restrict: 'AE',
+    controller: function($scope, $compile, $http) {
+      // $scope is the appropriate scope for the directive
+      this.addChild = function(nestedDirective) { // this refers to the controller
+        console.log('Got the message from nested directive:' + nestedDirective.message);
+      };
+    }
+  };
+});
+This code attaches a controller named outerDirective to the directive. When another directive wants to
+communicate, it needs to declare that it requires your directive’s controller instance. This is done as shown
+below.
+
+app.directive('innerDirective', function() {
+  return {
+    scope: {},
+    restrict: 'AE',
+    require: '^outerDirective',
+    link: function(scope, elem, attrs, controllerInstance) {
+      //the fourth argument is the controller instance you require
+      scope.message = "Hi, Parent directive";
+      controllerInstance.addChild(scope);
+    }
+  };
+});
+The markup would look something like this:
+
+<outer-directive>
+  <inner-directive></inner-directive>
+</outer-directive>
+require: '^outerDirective' tells Angular to search for the controller on the element and its parent.
+In this case the found controller instance is passed as the fourth argument to the link function. In our case we
+are sending the scope of the nested directive to the parent. To try things out, open this Plunker with your
+browser console opened. The last section of the this Angular resource gives an excellent example of inter
+directive communication. It’s definitely a must read!
+
+A Note Taking App
+In this section we are going to build a simple note taking app using directives. We will make use of HTML5
+localStorage to store the notes. The end product is going to look like this. We will create a directive that
+will render a notepad. A user can view the list of notes he/she has made. When he clicks the button add new the
+notepad becomes editable and allows a note to be created. The note is automatically saved when the back button
+is clicked. The notes are saved using a factory called notesFactory, with help from localStorage. The factory
+code is pretty straightforward and self explanatory. So, let’s concentrate on the directive code only.
+
+Step 1
+We start by registering the directive notepad.
+
+app.directive('notepad', function(notesFactory) {
+  return {
+    restrict: 'AE',
+    scope: {},
+    link: function(scope, elem, attrs) {
+    },
+    templateUrl: 'templateurl.html'
+  };
+});
+Please note a few things about the directive:
+
+The scope is isolated, as we want the directive to be reusable. The directive will have many properties and
+functions that are not relevant outside.
+The directive can be used as an attribute or element as specified by the restrict property.
+The link function is empty initially.
+The directive gets its template from templateurl.html.
+Step 2
+The following HTML forms the template for the directive.
+
+<div class="note-area" ng-show="!editMode">
+  <ul>
+    <li ng-repeat="note in notes|orderBy:'id'">
+      <a href="#" ng-click="openEditor(note.id)">{{note.title}}</a>
+    </li>
+  </ul>
+</div>
+<div id="editor" ng-show="editMode" class="note-area" contenteditable="true" ng-bind="noteText"></div>
+<span><a href="#" ng-click="save()" ng-show="editMode">Back</a></span>
+<span><a href="#" ng-click="openEditor()" ng-show="!editMode">Add Note</a></span>
+The important points to note are:
+
+The note object encapsulates title, id, and content.
+ng-repeat is used to loop through the notes and sort them by ascending order of an autogenerated id.
+We will have a property editMode which wil indicate the mode we are in. In edit mode this property will be true
+and the editable div will be visible. The user writes the note here.
+If editMode is false we are in viewing mode and display the notes.
+The two buttons are also shown/hidden based on editMode.
+The ng-click directive is used to react to button clicks. These methods, along with the properties like
+editMode, will be added to scope.
+The editable div is bound to noteText, which holds the user entered text. If you want to edit an existing note,
+this model initializes this div with that note content.
+Step 3
+Let’s create a new function in our scope called restore() that will initialize various controls for our app.
+This will be called when the link function runs and each time the save button is clicked.
+
+scope.restore = function() {
+  scope.editMode = false;
+  scope.index = -1;
+  scope.noteText = '';
+};
+We create this function inside the link function. editMode and noteText have already been explained. index is
+used to track which note is being edited. If we are creating a new note, index is -1. If we are editing an
+existing note it contains that note object’s id.
+
+Step 4
+Now we need to create two scope functions that handle the edit and save actions.
+
+scope.openEditor = function(index) {
+  scope.editMode = true;
+
+  if (index !== undefined) {
+    scope.noteText = notesFactory.get(index).content;
+    scope.index = index;
+  } else {
+    scope.noteText = undefined;
+  }
+};
+
+scope.save = function() {
+  if (scope.noteText !== '') {
+    var note = {};
+
+    note.title = scope.noteText.length > 10 ? scope.noteText.substring(0, 10) + '. . .' : scope.noteText;
+    note.content = scope.noteText;
+    note.id = scope.index != -1 ? scope.index : localStorage.length;
+    scope.notes = notesFactory.put(note);
+  }
+
+  scope.restore();
+};
+The important points about these functions are:
+
+openEditor prepares the editor. If we are editing a note, it gets the content of that note and updates the
+editable div thanks to ng-bind.
+If we are creating a new note we need to set noteText to undefined in order for watchers to fire when we save
+the note.
+If the function argument index is undefined, it means the user is going to create a new note.
+The save function takes help from the notesFactory to save the note. After saving, it refreshes the notes array
+so that the watchers can detect a change and the list of notes can be updated.
+The save function calls restore() at the end to reset the controls so that we can get back to viewing mode from
+edit mode.
+Step 5
+When the link function runs we initialize the notes array and bind a keydown event to the editable div so that
+our noteText model stays in sync with the div content. We use this noteText to save note content.
+
+var editor = elem.find('#editor');
+
+scope.restore();  // initialize our app controls
+scope.notes = notesFactory.getAll(); // load notes
+
+editor.bind('keyup keydown', function() {
+  scope.noteText = editor.text().trim();
+});
+Step 6
+Finally, use the directive just like any other HTML element and start taking notes!
+
+<h1 class="title">The Note Making App</h1>
+<notepad/>
+Conclusion
+An important point to note is that whatever we do with jQuery can be done with Angular directives with much
+less code. So, before using jQuery try to figure out if the same thing can be done in a better way without any
+DOM manipulation. Try to minimize the use of jQuery with Angular.
+
+With regards to the note taking demo, the delete note feature has been intentionally left out. The reader
+is encouraged to experiment and implement this feature. The source code for the demo is available for download
+from GitHub.
