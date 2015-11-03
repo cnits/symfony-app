@@ -6,33 +6,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Cnit">
         <meta name="author" content="Cnit">
-
-        <!-- Bootstrap Core CSS -->
-        <link href="getstarted/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Custom CSS -->
-        <link href="getstarted/css/grayscale.css" rel="stylesheet">
-
         <!-- Favicon-->
         <link rel="icon" type="image/jpeg" href="favicon.jpg" />
 
-        <!-- Custom Fonts -->
+
+        <!-- Bootstrap Core CSS -->
+        <link href="getstarted/css/bootstrap.min.css" rel="stylesheet">
+        <link href="getstarted/css/grayscale.css" rel="stylesheet">
         <link href="getstarted/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<!--
+
+
+        <!-- Foundation CSS -->
+        <link rel="stylesheet" href="bundles/foundation/css/foundation.css" />
+        <script src="bundles/foundation/js/vendor/modernizr.js"></script>
+        <script src="bundles/foundation/js/vendor/jquery.js"></script>
+        <script src="bundles/foundation/js/foundation.min.js"></script>
+        <script type="text/javascript">
+            //$(document).foundation();
+        </script>
+
+
+        <!-- Custom Angular -->
         <script src="libs/angular/angular.min.js" type="text/javascript"></script>
         <script src="libs/angular/angular-resource.min.js" type="text/javascript"></script>
         <script src="libs/angular/angular-route.min.js" type="text/javascript"></script>
 
         <script src="libs/js/firebase.js" type="text/javascript"></script>
         <script src="libs/js/angularfire.min.js" type="text/javascript"></script>
-        <script src="libs/js/less.min.js"></script>
 
         <script src="app/app.js" type="text/javascript"></script>
         <script src="app/components/fireBase/controllers/projectController.js" type="text/javascript"></script>
         <script src="app/components/fireBase/directives/projectDirective.js" type="text/javascript"></script>
         <script src="app/components/fireBase/services/projectService.js" type="text/javascript"></script>
--->
-        <title>Cnit Portal</title>
+
+        <title>Cnit - Testing Page</title>
     </head>
     <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
         <!-- Navigation -->
@@ -58,7 +65,7 @@
                             <a class="page-scroll" href="#about">About</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="#download">Download</a>
+                            <a class="page-scroll" href="#foundation-layout">Foundation Layout</a>
                         </li>
                         <li>
                             <a class="page-scroll" href="#contact">Contact</a>
@@ -122,21 +129,22 @@
                     </p>
                     <ul class="list-inline banner-social-buttons">
                         <li>
-                            <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                            <a href="" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
                         </li>
                         <li>
-                            <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                            <a href="" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
                         </li>
                         <li>
-                            <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
+                            <a href="" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
                         </li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Map Section -->
-        <div id="map"></div>
+        <div id="foundation-layout">
+            <project-page></project-page>
+        </div>
 
         <!-- Footer -->
         <footer>
@@ -145,20 +153,21 @@
             </div>
         </footer>
 
-        <!-- jQuery -->
-        <script src="getstarted/js/jquery.js"></script>
 
+        <!-- jQuery -->
+        <!--<script src="getstarted/js/jquery.js"></script>-->
         <!-- Bootstrap Core JavaScript -->
         <script src="getstarted/js/bootstrap.min.js"></script>
-
         <!-- Plugin JavaScript -->
         <script src="getstarted/js/jquery.easing.min.js"></script>
-
-        <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
-<!--
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
--->
         <!-- Custom Theme JavaScript -->
         <script src="getstarted/js/grayscale.js"></script>
+
+        <!-- Google Maps API Key - Use your own API key to enable the map feature.
+            More information on the Google Maps API can be found at https://developers.google.com/maps/
+        -->
+        <!--
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+        -->
     </body>
 </html>
