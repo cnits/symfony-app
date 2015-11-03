@@ -69,4 +69,14 @@
             };
         }
     );
+
+    app.controller('ParentCtrl', function($scope) {
+        $scope.logThisAndScope = function() {
+            console.log(this);
+            console.log($scope);
+        }
+    });
+
+    app.controller('ChildCtrl', function($scope) {
+    });
 }).call();

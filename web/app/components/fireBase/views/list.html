@@ -1,4 +1,4 @@
-<div ng-controller="ProjectController as self">
+<div ng-controller="ProjectController" ng-init="setProjectName('Fire Base Project')">
     <!--<form name="myForm">
         <div class="control-group" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
             <label>Name</label>
@@ -26,5 +26,8 @@
         <button ng-click="editProject.destroy()"
                 ng-show="editProject.project.$id" class="btn btn-danger">Delete</button>
     </form>-->
-    <div><strong>{{self.Name}}</strong></div>
+    <div><strong>{{ ProjectName }}</strong></div>
+    <!--<div ng-repeat="item in self.getList(123)">
+        <i>{{item}}</i>
+    </div>-->
 </div>

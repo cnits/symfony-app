@@ -11,17 +11,32 @@
     } else {
         app = angular.module("app.fireBase", ["firebase"]);
     }
-    app.controller("ProjectController", ["fbProject", function(fbProject){
+
+    app.controller("ProjectController", ["fbProject", "$scope", "$routeParams", function(fbProject, $scope, $routeParams){
         /*
         *   "$scope" issue within nested controller???
         *   Let use the "this" keyword, instead of "$scope"
+        *   angular.extend(this, {
+                name: "PVLam",
+                getName: function(){
+                    return this.name;
+                }
+            });
         */
-        var obj = fbProject.fetch();
-        angular.extend(this, {
-            Name: "PVLam",
-            MyFunc: function myFunc(name){
-                this.Name = name;
-            }
-        });
+        $scope.getList = function(){
+            return fbProject.fetch();
+        };
+
+        $scope.addItem = function(data){
+            fbProject.persist();
+        };
+
+        $scope.editItem = function(data){
+            fbProject.persist();
+        };
+
+        $scope.setProjectName = function(name){
+            $scope.ProjectName = name;
+        };
     }]);
 }).call(angular);

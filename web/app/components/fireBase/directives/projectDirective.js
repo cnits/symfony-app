@@ -18,13 +18,20 @@
             replace: true,
             templateUrl: './app/components/fireBase/views/list.html',
             link: function(element, attr){
-                element.bind('click', function(){
+                /*element.bind('click', function(){
                     element.css('background-color', 'purple');
                 });
                 element.bind('mouseover', function(){
                     element.css('cursor', 'pointer');
-                });
+                });*/
             }
+        };
+    });
+
+    app.directive("projectPage", function(){
+        return {
+            restrict: 'E',
+            templateUrl: './app/components/fireBase/views/default.html'
         };
     });
 }).call(angular);
