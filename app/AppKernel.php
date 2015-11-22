@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new CnitCrmBundle\CnitCrmBundle(),
             new CnitLdapBundle\CnitLdapBundle(),
             new CnitMongoDBBundle\CnitMongoDBBundle(),
+            new CnitElasticSearchBundle\CnitElasticSearchBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
