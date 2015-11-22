@@ -1,3 +1,7 @@
+cnit_elastic_search:
+    resource: "@CnitElasticSearchBundle/Resources/config/routing.yml"
+    prefix:   /
+
 cnit_mongo_db:
     resource: "@CnitMongoDBBundle/Resources/config/routing.yml"
     prefix:   /
