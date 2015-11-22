@@ -12,36 +12,41 @@ namespace Knp\Snappy;
  */
 class Pdf extends AbstractGenerator
 {
+    protected $optionsWithContentCheck = array();
+
     /**
      * {@inheritDoc}
      */
     public function __construct($binary = null, array $options = array(), array $env = null)
     {
         $this->setDefaultExtension('pdf');
+        $this->setOptionsWithContentCheck();
 
-        parent::__construct($binary, $options, $env );
+        parent::__construct($binary, $options, $env);
     }
 
     /**
-     * handle options to transform HTML header-html or footer-html into files contains HTML
+     * Handle options to transform HTML strings into temporary files containing HTML
      * @param array $options
      * @return array $options Transformed options
      */
     protected function handleOptions(array $options = array())
     {
-        $this->hasHtmlHeader = false;
-        $this->hasHtmlFooter = false;
-        
-        if ($this->isFileHeader($options) && !$this->isFile($options['header-html'])) {
-            $options['header-html'] = $this->createTemporaryFile($options['header-html'], 'html');
-        }
+        foreach ($options as $option => $value) {
+            if (null === $value) {
+                unset($options[$option]);
+                continue;
+            }
 
-        if ($this->isFileFooter($options) && !$this->isFile($options['footer-html'])) {
-            $options['footer-html'] = $this->createTemporaryFile($options['footer-html'], 'html');
-        }
+            if (!empty($value) && array_key_exists($option, $this->optionsWithContentCheck)) {
+                $saveToTempFile = !$this->isFile($value) && !$this->isOptionUrl($value);
+                $fetchUrlContent = $option === 'xsl-style-sheet' && $this->isOptionUrl($value);
 
-        if ($this->isFileCover($options) && !$this->isFile($options['cover'])) {
-            $options['cover'] = $this->createTemporaryFile($options['cover'], 'html');
+                if ($saveToTempFile || $fetchUrlContent) {
+                    $fileContent = $fetchUrlContent ? file_get_contents($value) : $value;
+                    $options[$option] = $this->createTemporaryFile($fileContent, $this->optionsWithContentCheck[$option]);
+                }
+            }
         }
 
         return $options;
@@ -52,49 +57,13 @@ class Pdf extends AbstractGenerator
      */
     public function generate($input, $output, array $options = array(), $overwrite = false)
     {
-        $options = $this->handleOptions($options);
+        $options = $this->handleOptions($this->mergeOptions($options));
 
         parent::generate($input, $output, $options, $overwrite);
     }
 
     /**
-     * @param array $options
-     * @return bool
-     */
-    protected function isFileHeader($options)
-    {
-        if (isset($options['header-html'])) {
-            return !$this->isOptionUrl($options['header-html']);
-        }
-        return false;
-    }
-
-    /**
-     * @param array $options
-     * @return bool
-     */
-    protected function isFileFooter($options)
-    {
-        if (isset($options['footer-html'])) {
-            return !$this->isOptionUrl($options['footer-html']);
-        }
-        return false;
-    }
-
-    /**
-     * @param array $options
-     * @return bool
-     */
-    protected function isFileCover($options)
-    {
-        if (isset($options['cover'])) {
-            return !$this->isOptionUrl($options['cover']);
-        }
-
-        return false;
-    }
-
-    /**
+     * Convert option content or url to file if it is needed
      * @param $option
      * @return bool
      */
@@ -230,6 +199,20 @@ class Pdf extends AbstractGenerator
             'xsl-style-sheet'              => null,
             'viewport-size'                => null,
             'redirect-delay'               => null, // old v0.9
+            'cache-dir'                    => null,
         ));
+    }
+
+    /**
+     * Array with options which require to store the content of the option before passing it to wkhtmltopdf
+     */
+    protected function setOptionsWithContentCheck()
+    {
+        $this->optionsWithContentCheck = array(
+            'header-html'    => 'html',
+            'footer-html'    => 'html',
+            'cover'          => 'html',
+            'xsl-style-sheet'=> 'xsl',
+        );
     }
 }

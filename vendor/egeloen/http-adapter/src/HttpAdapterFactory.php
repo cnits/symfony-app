@@ -23,9 +23,12 @@ class HttpAdapterFactory
     const CURL = 'curl';
     const FILE_GET_CONTENTS = 'file_get_contents';
     const FOPEN = 'fopen';
-    const GUZZLE = 'guzzle';
-    const GUZZLE_HTTP = 'guzzle_http';
+    const GUZZLE3 = 'guzzle3';
+    const GUZZLE4 = 'guzzle4';
+    const GUZZLE5 = 'guzzle5';
+    const GUZZLE6 = 'guzzle6';
     const HTTPFUL = 'httpful';
+    const PECL_HTTP = 'pecl_http';
     const REACT = 'react';
     const SOCKET = 'socket';
     const ZEND1 = 'zend1';
@@ -33,12 +36,20 @@ class HttpAdapterFactory
 
     /** @var array */
     private static $adapters = array(
-        self::GUZZLE_HTTP => array(
-            'adapter' => 'Ivory\HttpAdapter\GuzzleHttpHttpAdapter',
-            'client'  => 'GuzzleHttp\Client',
+        self::GUZZLE6 => array(
+            'adapter' => 'Ivory\HttpAdapter\Guzzle6HttpAdapter',
+            'client'  => 'GuzzleHttp\Handler\CurlHandler',
         ),
-        self::GUZZLE => array(
-            'adapter' => 'Ivory\HttpAdapter\GuzzleHttpAdapter',
+        self::GUZZLE5 => array(
+            'adapter' => 'Ivory\HttpAdapter\Guzzle5HttpAdapter',
+            'client'  => 'GuzzleHttp\Ring\Client\CurlHandler',
+        ),
+        self::GUZZLE4 => array(
+            'adapter' => 'Ivory\HttpAdapter\Guzzle4HttpAdapter',
+            'client'  => 'GuzzleHttp\Adapter\Curl\CurlAdapter',
+        ),
+        self::GUZZLE3 => array(
+            'adapter' => 'Ivory\HttpAdapter\Guzzle3HttpAdapter',
             'client'  => 'Guzzle\Http\Client',
         ),
         self::ZEND2 => array(
@@ -61,9 +72,13 @@ class HttpAdapterFactory
             'adapter' => 'Ivory\HttpAdapter\HttpfulHttpAdapter',
             'client'  => 'Httpful\Request',
         ),
+        self::PECL_HTTP => array(
+            'adapter' => 'Ivory\HttpAdapter\PeclHttpAdapter',
+            'client'  => 'http\Client',
+        ),
         self::CAKE => array(
             'adapter' => 'Ivory\HttpAdapter\CakeHttpAdapter',
-            'client'  => '\HttpSocket',
+            'client'  => 'Cake\Network\Http\Client',
         ),
         self::CURL => array(
             'adapter' => 'Ivory\HttpAdapter\CurlHttpAdapter',

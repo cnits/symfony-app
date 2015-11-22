@@ -12,14 +12,13 @@
     ],
     "require": {
         "php": ">=5.4.8",
-        "phly/http": "^0.11.2"
+        "zendframework/zend-diactoros": "^1.1"
     },
     "require-dev": {
-        "cakephp/cakephp": "^2.5.7",
+        "cakephp/cakephp": "^3.0.3",
         "ext-curl": "*",
-        "guzzle/guzzle": "^3.9.2",
-        "guzzlehttp/guzzle": ">=4.1.4,<6.0.0",
-        "guzzlehttp/streams": ">=1.5.0,<4.0.0",
+        "guzzle/guzzle": "^3.9.4@dev",
+        "guzzlehttp/guzzle": "^4.1.4|^5.0|^6.0",
         "kriswallsmith/buzz": "^0.13",
         "nategood/httpful": "^0.2.17",
         "phpunit/phpunit": "^4.0",
@@ -29,7 +28,7 @@
         "react/dns": "^0.4.1",
         "satooshi/php-coveralls": "^0.6",
         "symfony/event-dispatcher": "^2.0",
-        "zendframework/zendframework1": "^1.12.9",
+        "zendframework/zendframework1": ">=1.12.9,<=1.12.14|^1.12.16",
         "zendframework/zend-http": "^2.3.4"
     },
     "repositories": [
@@ -40,6 +39,7 @@
     ],
     "suggest": {
         "ext-curl": "Allows you to use the cURL adapter",
+        "ext-http": "Allows you to use the PECL adapter",
         "guzzle/guzzle": "Allows you to use the Guzzle 3 adapter",
         "guzzlehttp/guzzle": "Allows you to use the Guzzle 4 adapter",
         "kriswallsmith/buzz": "Allows you to use the Buzz adapter",
@@ -61,7 +61,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.7-dev"
+            "dev-master": "0.8-dev"
         }
     }
 }

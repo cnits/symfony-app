@@ -1,5 +1,27 @@
 # UPGRADE
 
+### 0.7 to 0.8
+
+ * The `Ivory\HttpAdapter\GuzzleHttpAdapter` has been renamed to `Ivory\HttpAdapter\Guzzle3HttpAdapter` and its name
+   has been renamed from `guzzle` to `guzzle3`.
+ * The `Ivory\HttpAdapter\GuzzleHttpHttpAdapter` has been renamed to `Ivory\HttpAdapter\Guzzle5HttpAdapter` and its
+   name has been renamed from `guzzle_http` to `guzzle5`.
+ * The `Ivory\HttpAdapter\Guzzle4HttpAdapter` is now an alias of thz Guzzle 5 http adapter. Its name is `guzzle4`.
+ * The `Ivory\HttpAdapter\HttpAdapterFactory::GUZZLE` constant has been renamed to `GUZZLE3`.
+ * The `Ivory\HttpAdapter\HttpAdapterFactory::GUZZLE_HTTP` constant has been renamed to `GUZZLE4` and `GUZZLE5`.
+ * The [phly/http](https://github.com/phly/http) has been replaced by
+   [zendframework/zend-diactoros](https://github.com/zendframework/zend-diactoros).
+ * The `Ivory\HttpAdapter\Message\Stream\AbstractStream`, `Ivory\HttpAdapter\Message\Stream\GuzzleStream` and 
+   `Ivory\HttpAdapter\Message\Stream\GuzzleHttpStream` have been removed. 
+ * The CakePHP 2.x support has been dropped in favor of the 3.x one.
+ * `PreRequest` event renamed to `RequestCreated`.
+ * `PostRequest` event renamed to `RequestSent`.
+ * `Exception` event renamed to `RequestErrored`.
+ * `MultiPreRequest` event renamed to `MultiRequestCreated`.
+ * `MultiPostRequest` event renamed to `MultiRequestSent`.
+ * `MultiException` event renamed to `MultiRequestErrored`.
+ * Event subscribers are now immutable.
+
 ### 0.6 to 0.7
 
  * The lowest PHP version supported has been bumped to 5.4.8+ due to the usage of `phly/http`.

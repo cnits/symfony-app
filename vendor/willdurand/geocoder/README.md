@@ -67,9 +67,9 @@ of [providers](#providers).
 
 Choose the one that fits your need first. Let's say the `GoogleMaps` one is what
 you were looking for, so let's see how to use it. In the code snippet below,
-`curl` has been choosen as [HTTP layer](#http-adapters) but it is up to you
+`curl` has been chosen as [HTTP layer](#http-adapters) but it is up to you
 since each HTTP-based provider implements
-[PSR-7](https://github.com/php-fig/fig-standards/blob/master/proposed/http-message.md).
+[PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md).
 
 ```php
 $curl     = new \Ivory\HttpAdapter\CurlHttpAdapter();
@@ -212,7 +212,7 @@ geocoder calls will appear in your timeline section in the Web Profiler.
 In order to talk to geocoding APIs, you need HTTP adapters. While it was part of
 the library in Geocoder 1.x and 2.x, Geocoder 3.x and upper now relies on the
 [PSR-7
-Standard](https://github.com/php-fig/fig-standards/blob/master/proposed/http-message.md)
+Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
 which defines how HTTP message should be implemented. Choose any library that
 follows this PSR and implement the specified interfaces to use with Geocoder.
 
@@ -225,7 +225,7 @@ default, but it is up to you to choose a different implementation.
 ### Providers
 
 Providers perform the geocoding black magic for you (talking to the APIs,
-fetching results, dealing with errors, etc.) an are highly configurable.
+fetching results, dealing with errors, etc.) and are highly configurable.
 
 #### Address-based Providers
 
@@ -311,7 +311,7 @@ Page](http://wiki.openstreetmap.org/wiki/Nominatim) for more information.
 
 ##### TomTom
 
-The default langage-locale is `en`, you can choose between `de`, `es`, `fr`,
+The default language-locale is `en`, you can choose between `de`, `es`, `fr`,
 `it`, `nl`, `pl`, `pt` and `sv`.
 
 ##### Yandex
@@ -329,7 +329,7 @@ Provider  | Name | IPv4? | IPv6? | Multiple? | Terms | Notes
 [FreeGeoIp](http://freegeoip.net/) | `free_geo_ip` | yes | yes | no
 [GeoIPs](http://www.geoips.com/en/) | `geo_ips` | yes | no | no | requires API key
 [GeoIP2](https://www.maxmind.com/en/geoip2-databases) (Maxmind) | `maxmind_geoip2` | yes | yes | no
-[GeoPlugin](http://www.geoplugin.com/) | `geo_plugin` | yes | yes | no
+[GeoPlugin](http://www.geoplugin.com/) | `geo_plugin` | yes | yes | no
 [HostIp](http://www.hostip.info/use.html) | `host_ip` | yes | no | no
 [IpInfoDB](http://ipinfodb.com/) | `ip_info_db` | yes | no | no | requires API key | city precision
 Geoip | `geoip` | yes | no | no | | wrapper around the [PHP extension](http://php.net/manual/en/book.geoip.php) which must be installed
@@ -500,39 +500,24 @@ Geocoder follows [Semantic Versioning](http://semver.org/).
 
 ### End Of Life
 
+#### 1.x
+
 As of December 2014, branch `1.7` is not officially supported anymore, meaning
 major version `1` reached end of life. Last version is:
-[1.7.1](https://github.com/geocoder-php/Geocoder/releases/tag/1.7.1). This
-branch did not receive any new fixes over the last year, and all plugins/modules
-require Geocoder `~2.0`.
+[1.7.1](https://github.com/geocoder-php/Geocoder/releases/tag/1.7.1).
+
+#### 2.x
+
+As of December 2014, version [2.x](https://github.com/geocoder-php/Geocoder/tree/2.x)
+is in a **feature frozen** state. All new features should be contributed to version 3.0
+and upper. Last version is:
+[2.8.1](https://github.com/geocoder-php/Geocoder/releases/tag/2.8.1).
+
+Major version `2` will reach **end of life on December 2015**.
 
 ### Stable Version
 
-Stable version
-[2.0.0](https://github.com/geocoder-php/Geocoder/releases/tag/2.0.0) has been
-released on July 2013, and it is the only known stable major version. Branch
-[`2.x`](https://github.com/geocoder-php/Geocoder/tree/2.x) is used to contribute
-bug and/or security fixes, and that is the one you should use in order to
-contribute.
-
-Latest version is:
-[2.8.1](https://github.com/geocoder-php/Geocoder/releases/tag/2.8.1).
-
-**Important:** as of December 2014, this version is in a **feature freeze**
-state. All new features should be contributed to (upcoming) version 3.0.
-
-**Important:** version 2.0.0 does not have any EOL date scheduled yet.
-
-### Next Version
-
-Version 3.0.0 is the next major version of Geocoder. You can take a look at the
-[`master`](https://github.com/geocoder-php/Geocoder/tree/master) branch in order
-to follow its development. That is also why it is a bad idea to require
-`dev-master` into your `composer.json` file.
-
-Branch `2.x` is merged into `master` time to time, so that all bug/security
-fixes contributed to the current stable version will also appear in the next
-version.
+Version `3.x` is the current major stable version of Geocoder.
 
 
 Contributing
@@ -546,7 +531,7 @@ file.
 Unit Tests
 ----------
 
-In order to run the test suite, install the developement dependencies:
+In order to run the test suite, install the development dependencies:
 
 ```
 $ composer install --dev

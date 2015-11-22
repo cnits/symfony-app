@@ -3,6 +3,7 @@
 namespace Knp\Snappy;
 
 use Knp\Snappy\Exception as Exceptions;
+use Symfony\Component\Process\Process;
 
 /**
  * Base generator class for medias
@@ -44,6 +45,8 @@ abstract class AbstractGenerator implements GeneratorInterface
         $this->setBinary($binary);
         $this->setOptions($options);
         $this->env = empty($env) ? null : $env;
+
+        register_shutdown_function(array($this, 'removeTemporaryFiles'));
     }
 
     public function __destruct()
@@ -351,8 +354,17 @@ abstract class AbstractGenerator implements GeneratorInterface
      */
     protected function createTemporaryFile($content = null, $extension = null)
     {
-        $filename = rtrim($this->getTemporaryFolder(), DIRECTORY_SEPARATOR)
-            . DIRECTORY_SEPARATOR . uniqid('knp_snappy', true);
+        $dir = rtrim($this->getTemporaryFolder(), DIRECTORY_SEPARATOR);
+
+        if (!is_dir($dir)) {
+            if (false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
+                throw new \RuntimeException(sprintf("Unable to create directory: %s\n", $dir));
+            }
+        } elseif (!is_writable($dir)) {
+            throw new \RuntimeException(sprintf("Unable to write in directory: %s\n", $dir));
+        }
+
+        $filename = $dir . DIRECTORY_SEPARATOR . uniqid('knp_snappy', true);
 
         if (null !== $extension) {
             $filename .= '.'.$extension;
@@ -370,7 +382,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     /**
      * Removes all temporary files
      */
-    protected function removeTemporaryFiles()
+    public function removeTemporaryFiles()
     {
         foreach ($this->temporaryFiles as $file) {
             $this->unlink($file);
@@ -463,13 +475,10 @@ abstract class AbstractGenerator implements GeneratorInterface
      */
     protected function executeCommand($command)
     {
-        if (class_exists('Symfony\Component\Process\Process')) {
-            $process = new \Symfony\Component\Process\Process($command, NULL, $this->env);
-            if ($this->timeout !== false) {
-                $process->setTimeout($this->timeout);
-            }
-        } else {
-            $process = new Process($command, $this->env);
+        $process = new Process($command, null, $this->env);
+
+        if (false !== $this->timeout) {
+            $process->setTimeout($this->timeout);
         }
 
         $process->run();

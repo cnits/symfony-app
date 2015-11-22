@@ -1,2 +1,4 @@
 phpunit.xml
-build
+composer.lock
+vendor
+bin

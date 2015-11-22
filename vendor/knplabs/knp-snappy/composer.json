@@ -16,47 +16,27 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.3",
+        "symfony/process": "~2.3|~3.0"
     },
     "require-dev": {
-        "symfony/process": "~2.1"
+        "phpunit/phpunit": "~4.7"
     },
     "suggest": {
-        "h4cc/wkhtmltopdf-amd64": "Provide wkhtmltopdf-amd64 binary, use version `0.12.0` as dependency",
-        "h4cc/wkhtmltopdf-i386": "Provide wkhtmltopdf-i386 binary, use version `0.12.0` as dependency"
+        "h4cc/wkhtmltopdf-amd64": "Provides wkhtmltopdf-amd64 binary for Linux-compatible machines, use version `~0.12` as dependency",
+        "h4cc/wkhtmltopdf-i386": "Provides wkhtmltopdf-i386 binary for Linux-compatible machines, use version `~0.12` as dependency",
+        "h4cc/wkhtmltoimage-amd64": "Provides wkhtmltoimage-amd64 binary for Linux-compatible machines, use version `~0.12` as dependency",
+        "h4cc/wkhtmltoimage-i386": "Provides wkhtmltoimage-i386 binary for Linux-compatible machines, use version `~0.12` as dependency",
+        "wemersonjanuario/wkhtmltopdf-windows": "Provides wkhtmltopdf executable for Windows, use version `~0.12` as dependency"
     },
     "autoload": {
         "psr-0": {
             "Knp\\Snappy": "src/"
         }
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "google/wkhtmltopdf-amd64",
-                "version": "0.11.0-RC1",
-                "dist": {
-                    "url": "http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2",
-                    "type": "tar"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "google/wkhtmltopdf-i386",
-                "version": "0.11.0-RC1",
-                "dist": {
-                    "url": "http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-i386.tar.bz2",
-                    "type": "tar"
-                }
-            }
-        }
-    ],
     "extra": {
         "branch-alias": {
-            "dev-master": "0.3.x-dev"
+            "dev-master": "0.5.x-dev"
         }
     }
 }

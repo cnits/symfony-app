@@ -12,9 +12,9 @@
 namespace Ivory\HttpAdapter\Message;
 
 use Ivory\HttpAdapter\Normalizer\HeadersNormalizer;
-use Phly\Http\Stream;
-use Phly\Http\Uri;
-use Psr\Http\Message\StreamableInterface;
+use Zend\Diactoros\Stream;
+use Zend\Diactoros\Uri;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Message factory.
@@ -23,7 +23,7 @@ use Psr\Http\Message\StreamableInterface;
  */
 class MessageFactory implements MessageFactoryInterface
 {
-    /** @var null|\Phly\Http\Uri */
+    /** @var null|\Zend\Diactoros\Uri */
     private $baseUri;
 
     /**
@@ -149,18 +149,20 @@ class MessageFactory implements MessageFactoryInterface
     /**
      * Creates a stream.
      *
-     * @param null|resource|string|\Psr\Http\Message\StreamableInterface|null $body The body.
+     * @param null|resource|string|\Psr\Http\Message\StreamInterface|null $body The body.
      *
-     * @return \Psr\Http\Message\StreamableInterface The stream.
+     * @return \Psr\Http\Message\StreamInterface The stream.
      */
     private function createStream($body)
     {
-        if ($body instanceof StreamableInterface) {
+        if ($body instanceof StreamInterface) {
+            $body->rewind();
+
             return $body;
         }
 
         if (is_resource($body)) {
-            return new Stream($body);
+            return $this->createStream(new Stream($body));
         }
 
         $stream = new Stream('php://memory', 'rw');
@@ -171,6 +173,6 @@ class MessageFactory implements MessageFactoryInterface
 
         $stream->write((string) $body);
 
-        return $stream;
+        return $this->createStream($stream);
     }
 }

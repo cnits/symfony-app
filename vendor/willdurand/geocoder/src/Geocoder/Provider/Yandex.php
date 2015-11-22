@@ -24,12 +24,12 @@ class Yandex extends AbstractHttpProvider implements LocaleAwareProvider
     /**
      * @var string
      */
-    const GEOCODE_ENDPOINT_URL = 'http://geocode-maps.yandex.ru/1.x/?format=json&geocode=%s';
+    const GEOCODE_ENDPOINT_URL = 'https://geocode-maps.yandex.ru/1.x/?format=json&geocode=%s';
 
     /**
      * @var string
      */
-    const REVERSE_ENDPOINT_URL = 'http://geocode-maps.yandex.ru/1.x/?format=json&geocode=%F,%F';
+    const REVERSE_ENDPOINT_URL = 'https://geocode-maps.yandex.ru/1.x/?format=json&geocode=%F,%F';
 
     /**
      * @var string
@@ -100,7 +100,9 @@ class Yandex extends AbstractHttpProvider implements LocaleAwareProvider
         $content = (string) $this->getAdapter()->get($query)->getBody();
         $json    = (array) json_decode($content, true);
 
-        if (empty($json) || '0' === $json['response']['GeoObjectCollection']['metaDataProperty']['GeocoderResponseMetaData']['found']) {
+        if (empty($json) || isset($json['error']) ||
+            (isset($json['response']) &&  '0' === $json['response']['GeoObjectCollection']['metaDataProperty']['GeocoderResponseMetaData']['found'])
+        ) {
             throw new NoResult(sprintf('Could not execute query "%s".', $query));
         }
 

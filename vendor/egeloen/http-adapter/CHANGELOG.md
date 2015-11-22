@@ -1,5 +1,25 @@
 # CHANGELOG
 
+### 0.8.0 (2015-08-12)
+
+ * 2d8061b - Add guzzle 6 support
+ * 26d6b7b - Add mock http adapter
+ * 1cd6ee4 - [GuzzleHttp] Catch an exception that is able to provide a request
+ * 6ac4d3b - [Travis] Add Symfony 2.7 to stable + Add Symfony 2.8.*@dev as unstable
+ * 4f35c0e - Replace phly/http by zendframework/zend-diactoros
+ * fbc3c4d - [Message][Stream] Remove guzzle streams
+ * 9de52ee - Rewind stream before setting it on the response
+ * 9a29e09 - Rely on PHP built in server instead of Nginx or Apache
+ * e6ef972 - [Travis] Add PHP 7
+ * 1e609b9 - [CakePHP] Drop 2.x support in favor of 3.x
+ * 19a0e44 - [Headers] Automatically add content-type when there are datas
+ * 005efb0 - Add PECL http adapter support
+ * 789326e - [Event] Fix redirect subscriber which throws an exception
+ * 2d245b6 - Rely on PSR response interface for trait typehint closure
+ * 458a9e2 - [Decorator] Make decorator calls explicit
+ * 9d126f8 - Upgrade phly/http library
+ * 79e75ea - Makes event subscribers immutable + rename events 
+
 ### 0.7.1 (2015-04-13)
 
  * f996f8e - [Travis] Use minimum PHP version for lowest deps

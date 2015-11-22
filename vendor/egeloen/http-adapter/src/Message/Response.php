@@ -11,22 +11,22 @@
 
 namespace Ivory\HttpAdapter\Message;
 
-use Phly\Http\Response as PhlyResponse;
+use Zend\Diactoros\Response as DiactorosResponse;
 
 /**
  * Response.
  *
  * @author GeLo <geloen.eric@gmail.com>
  */
-class Response extends PhlyResponse implements ResponseInterface
+class Response extends DiactorosResponse implements ResponseInterface
 {
     use MessageTrait;
 
     /**
-     * @param string|resource|\Psr\Http\Message\StreamableInterface $body       The response body.
-     * @param integer                                               $status     The response status code.
-     * @param array                                                 $headers    The response headers.
-     * @param array                                                 $parameters The response parameters.
+     * @param string|resource|\Psr\Http\Message\StreamInterface $body       The response body.
+     * @param integer                                           $status     The response status code.
+     * @param array                                             $headers    The response headers.
+     * @param array                                             $parameters The response parameters.
      */
     public function __construct(
         $body = 'php://memory',

@@ -6,10 +6,14 @@
         {
             "name": "Benjamin Zikarsky",
             "email": "benjamin@zikarsky.de"
+        },
+        {
+            "name": "gelf-php contributors",
+            "homepage": "https://github.com/bzikarsky/gelf-php/contributors"
         }
     ],
     "require": {
-        "php": ">=5.3",
+        "php": ">=5.3.9",
         "psr/log": "~1.0"
     },
     "autoload": {
@@ -23,5 +27,10 @@
     "require-dev": {
         "phpunit/phpunit": "~4.3",
         "squizlabs/php_codesniffer": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.3.x-dev"
+        }
     }
 }
