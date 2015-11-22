@@ -19,12 +19,11 @@
         "sensio/distribution-bundle": "~3.0,>=3.0.12",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
-        "elasticsearch/elasticsearch": "*",
-        "ruflin/elastica": "*",
-        "graylog2/gelf-php": "dev-master",
+        "elasticsearch/elasticsearch": "2.*",
         "monolog/monolog": "*",
         "willdurand/geocoder": "*",
-        "knplabs/knp-snappy": "^0.4.0"
+        "knplabs/knp-snappy": "^0.4.0",
+        "graylog2/gelf-php": "^1.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
