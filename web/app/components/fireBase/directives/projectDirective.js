@@ -5,19 +5,14 @@
  */
 (function(){
     'use strict';
-    var app;
-    if(angular.isDefined(angular.module("app.fireBase"))){
-        app = angular.module("app.fireBase");
-    } else {
-        app = angular.module("app.fireBase", ["firebase"]);
-    }
+    var app = angular.module("com.FireBase");
 
     app.directive("projectListLayout", function(){
         return {
             restrict: 'E',
             replace: true,
             templateUrl: './app/components/fireBase/views/list.html',
-            link: function(element, attr){
+            link: function(scope, element, attr){
                 /*element.bind('click', function(){
                     element.css('background-color', 'purple');
                 });

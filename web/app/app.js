@@ -5,8 +5,10 @@
  */
 'use strict';
 (function(){
-    angular.module("app.fireBase", ["firebase"]);
-    var app = angular.module('app', ['ngRoute', "app.fireBase"])
+    var app = angular.module('app', [
+        'ngRoute',
+        "com.FireBase"
+    ])
     .config(function($routeProvider) {
         $routeProvider
             .when('/', {

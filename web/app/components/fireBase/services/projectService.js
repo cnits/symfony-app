@@ -5,12 +5,7 @@
  */
 (function(){
     'use strict';
-    var app;
-    if(angular.isDefined(angular.module("app.fireBase"))){
-        app = angular.module("app.fireBase");
-    } else {
-        app = angular.module("app.fireBase", ["firebase"]);
-    }
+    var app = angular.module("com.FireBase");
 
     app.value('fbURL', 'https://cnit.firebaseio.com/data')
     .service('fbRef', function(fbURL) {

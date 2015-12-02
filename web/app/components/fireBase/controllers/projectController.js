@@ -5,12 +5,7 @@
  */
 (function(){
     'use strict';
-    var app;
-    if(angular.isDefined(angular.module("app.fireBase"))){
-        app = angular.module("app.fireBase");
-    } else {
-        app = angular.module("app.fireBase", ["firebase"]);
-    }
+    var app= angular.module("com.FireBase");
 
     app.controller("ProjectController", ["fbProject", "$scope", "$routeParams", function(fbProject, $scope, $routeParams){
         /*
