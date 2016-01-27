@@ -14,5 +14,11 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
             <argument type="service" id="twig.extension.acme.demo" />
         </service>
+
+        <service id="acme.demo.websocket.topic.timeout"
+                 class="Acme\DemoBundle\TimeoutManagement\TimoutTopic">
+            <tag name="gos_web_socket.topic.timeout"></tag>
+            <argument type="service" id=""></argument>
+        </service>
     </services>
 </container>
