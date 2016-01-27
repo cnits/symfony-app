@@ -1,0 +1,30 @@
+{
+  "name": "cnit",
+  "description": "Getting started with bower",
+  "main": "bower",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node",
+    "yui"
+  ],
+  "authors": [
+    "cnit"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": [
+	"angular-ui-grid": "latest",
+	"angular-ui-tinymce": "latest",
+	"angular-ui-validate": "latest",
+	"angular-bootstrap": "latest"
+  ]
+}
