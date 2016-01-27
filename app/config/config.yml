@@ -99,3 +99,9 @@ gos_web_socket:
     server:
         port: 8080        #The port the socket server will listen on
         host: 127.0.0.1   #The host ip to bind to
+acme_demo:
+    timeout_topic:
+        class: Acme\DemoBundle\TimeoutManagement\TimoutTopic
+        tags:
+            - { name: gos_web_socket.topic }
+            arguments: [ @gos_web_socket.websocket.client_manipulator ]
